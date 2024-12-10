@@ -1,22 +1,18 @@
-import { useState } from 'react';
 import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
     UploadOutlined,
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 export const MainPage = ({ Component }: any) => {
-    const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
 
     const {
-        token: { colorBgContainer, borderRadiusLG },
+        token: { borderRadiusLG, colorBgContainer },
     } = theme.useToken();
 
     const handlePage = (item: string) => {
@@ -40,7 +36,7 @@ export const MainPage = ({ Component }: any) => {
 
     return (
         <Layout style={{ height: '100vh', margin: 0, padding: 0 }}>
-            <Sider collapsible collapsed={collapsed} hidden={false}>
+            <Sider collapsedWidth="0" breakpoint='md' hidden={false}>
                 <div className="demo-logo-vertical" />
                 <Menu
                     theme="dark"
@@ -67,18 +63,6 @@ export const MainPage = ({ Component }: any) => {
                 />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} hidden={false}>
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
-                </Header>
                 <Content
                     style={{
                         margin: '24px 16px',
