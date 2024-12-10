@@ -19,8 +19,6 @@ export const AppRouter = () => {
                 <Route path="/createTicket/*" element={<DashboardRoute Component={CreateTicket} />} />
                 <Route path="/desktop/*" element={<DashboardRoute Component={Desktop} />} />
 
-                <Route path="/createTicket/*" element={<DashboardRoute Component={CreateTicket} />} />
-
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
         </Router>
