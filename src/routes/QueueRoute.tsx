@@ -6,7 +6,7 @@ export const QueueRoute = ({ Component }: { Component: ReactElement }) => {
     return (
         <Routes>
             <Route
-                path="/Queue"
+                path="/"
                 element={<MainPage Component={Component} />}
             />
         </Routes>
