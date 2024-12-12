@@ -5,11 +5,14 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { UiContext } from '../context/UiContext';
+import { ReactElement, useContext } from 'react';
 
 const { Sider, Content } = Layout;
 
-export const MainPage = ({ Component }: any) => {
+export const MainPage = ({ Component }: { Component: ReactElement }) => {
     const navigate = useNavigate();
+    const { showMenu } = useContext(UiContext);
 
     const {
         token: { borderRadiusLG, colorBgContainer },
@@ -18,15 +21,15 @@ export const MainPage = ({ Component }: any) => {
     const handlePage = (item: string) => {
         switch (item) {
             case '1':
-                navigate('/login', { replace: true });
+                navigate('/login', { replace: false });
                 break;
 
             case '2':
-                navigate('/queue', { replace: true });
+                navigate('/queue', { replace: false });
                 break;
 
             case '3':
-                navigate('/createTicket', { replace: true });
+                navigate('/createTicket', { replace: false });
                 break;
 
             default:
@@ -36,12 +39,13 @@ export const MainPage = ({ Component }: any) => {
 
     return (
         <Layout style={{ height: '100vh', margin: 0, padding: 0 }}>
-            <Sider collapsedWidth="0" breakpoint='md' hidden={false}>
+            <Sider collapsedWidth="0" breakpoint='md' hidden={showMenu}>
                 <div className="demo-logo-vertical" />
                 <Menu
                     theme="dark"
                     mode="inline"
                     onClick={(e) => handlePage(e.key)}
+                    selectedKeys={['1']}
                     defaultSelectedKeys={['1']}
                     items={[
                         {
@@ -72,7 +76,7 @@ export const MainPage = ({ Component }: any) => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    {<Component />}
+                    {Component}
                 </Content>
             </Layout>
         </Layout>

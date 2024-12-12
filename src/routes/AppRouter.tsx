@@ -1,6 +1,6 @@
 import {
     Route,
-    HashRouter as Router, 
+    HashRouter as Router,
     Routes,
     Navigate
 } from "react-router-dom";
@@ -14,10 +14,25 @@ export const AppRouter = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/login/*" element={<DashboardRoute Component={Login} />} />
-                <Route path="/queue/*" element={<DashboardRoute Component={Queue} />} />
-                <Route path="/createTicket/*" element={<DashboardRoute Component={CreateTicket} />} />
-                <Route path="/desktop/*" element={<DashboardRoute Component={Desktop} />} />
+                <Route
+                    path="/login/*"
+                    element={<DashboardRoute Component={<Login />} />}
+                />
+
+                <Route
+                    path="/queue/*"
+                    element={<DashboardRoute Component={<Queue />} />}
+                />
+
+                <Route
+                    path="/createTicket/*"
+                    element={<DashboardRoute Component={<CreateTicket />} />}
+                />
+
+                <Route
+                    path="/desktop/*"
+                    element={<DashboardRoute Component={<Desktop />} />}
+                />
 
                 <Route path="*" element={<Navigate to="/login" />} />
             </Routes>

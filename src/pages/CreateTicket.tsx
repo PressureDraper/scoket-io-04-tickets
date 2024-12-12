@@ -1,8 +1,15 @@
 import { DownloadOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Typography } from "antd"
+import { useContext, useEffect } from "react";
+import { UiContext } from "../context/UiContext";
 
 export const CreateTicket = () => {
     const { Title, Text } = Typography;
+    const { setHideMenu } = useContext(UiContext);
+
+    useEffect(() => {
+        setHideMenu(true);
+    }, [setHideMenu]);
 
     const newTicket = () => {
         console.log('new');

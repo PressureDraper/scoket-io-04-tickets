@@ -1,20 +1,27 @@
 import { Button, Form, FormProps, Input, InputNumber, Typography } from 'antd';
 import { Col, Row } from 'antd';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UiContext } from '../context/UiContext';
 
 export const Login = () => {
     const navigate = useNavigate();
+    const { setHideMenu } = useContext(UiContext);
+
+    useEffect(() => {
+        setHideMenu(false);
+    }, [setHideMenu]);
 
     type FieldType = {
-        username?: string;
-        desktop?: string;
-        remember?: string;
+        username: string;
+        desktop: string;
+        remember: string;
     };
 
     const { Title } = Typography;
 
-    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log(values);
+    const onFinish: FormProps<FieldType>['onFinish'] = (value) => {
+        localStorage.setItem('user', JSON.stringify(value));
         navigate('/desktop', { replace: true });
     };
 
