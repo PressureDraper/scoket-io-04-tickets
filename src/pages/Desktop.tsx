@@ -1,12 +1,16 @@
 import { CloseCircleOutlined, StepForwardOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Row, Typography } from "antd"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SocketContext } from "../context/SocketContext";
+import { PropsTicketsInterface } from "../interfaces/ITickets";
 
 export const Desktop = () => {
     const navigate = useNavigate();
     const { Title, Text } = Typography;
     const [user, setUser] = useState<{ username: string, desktop: number }>({ username: '', desktop: 0 });
+    const { socket } = useContext(SocketContext);
+    const [ticket, setTicket] = useState<PropsTicketsInterface | null>(null);
 
     useEffect(() => {
         const userLocal = JSON.parse(localStorage.getItem("user")!);
@@ -24,7 +28,9 @@ export const Desktop = () => {
     }
 
     const nextTicket = () => {
-        console.log('click');
+        socket?.emit('getNextTicket', user, (ticket: PropsTicketsInterface) => {
+            setTicket(ticket);
+        });
     }
 
     return (
@@ -57,7 +63,7 @@ export const Desktop = () => {
                         <Text
                             style={{ fontSize: 30, color: 'red' }}
                         >
-                            55
+                            {ticket === null ? 'NONE' : ticket.number}
                         </Text>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
