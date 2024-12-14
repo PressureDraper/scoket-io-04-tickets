@@ -5,3 +5,8 @@ export interface PropsTicketsInterface {
     agent: string | null;
     desktop: string | null;
 }
+
+export interface ReqTicketsInterface {
+    ok: boolean;
+    data: PropsTicketsInterface[]
+}

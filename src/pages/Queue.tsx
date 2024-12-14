@@ -2,7 +2,8 @@ import { Card, Col, Divider, List, Row, Tag, Typography } from "antd"
 import { useContext, useEffect, useState } from "react";
 import { UiContext } from "../context/UiContext";
 import { SocketContext } from "../context/SocketContext";
-import { PropsTicketsInterface } from "../interfaces/ITickets";
+import { PropsTicketsInterface, ReqTicketsInterface } from "../interfaces/ITickets";
+import { getTicketsHistory } from "../services/getTicketsHistory";
 
 export const Queue = () => {
     const { Title, Text } = Typography;
@@ -20,6 +21,14 @@ export const Queue = () => {
         })
     }, [socket]);
 
+    useEffect(() => {
+        const getTickets = async () => {
+            const req: ReqTicketsInterface = await getTicketsHistory();
+            setTickets(req.data);
+        }
+
+        getTickets();
+    }, []);
 
     return (
         <>
