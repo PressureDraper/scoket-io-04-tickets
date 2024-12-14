@@ -1,15 +1,25 @@
 import { Card, Col, Divider, List, Row, Tag, Typography } from "antd"
-import { data } from "../helpers/data";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UiContext } from "../context/UiContext";
+import { SocketContext } from "../context/SocketContext";
+import { PropsTicketsInterface } from "../interfaces/ITickets";
 
 export const Queue = () => {
     const { Title, Text } = Typography;
     const { setHideMenu } = useContext(UiContext);
+    const [tickets, setTickets] = useState<PropsTicketsInterface[]>([]);
+    const { socket } = useContext(SocketContext);
 
     useEffect(() => {
         setHideMenu(true);
     }, [setHideMenu]);
+
+    useEffect(() => {
+        socket?.on('assignedTickets', (data: PropsTicketsInterface[]) => {
+            setTickets(data);
+        })
+    }, [socket]);
+
 
     return (
         <>
@@ -17,17 +27,17 @@ export const Queue = () => {
             <Row>
                 <Col span={12}>
                     <List
-                        dataSource={data.slice(0, 3)}
-                        renderItem={item => (
+                        dataSource={tickets.slice(0, 3)}
+                        renderItem={(item: PropsTicketsInterface) => (
                             <List.Item>
                                 <Card
                                     style={{ width: 300, marginTop: 15 }}
                                     actions={[
-                                        <Tag color="volcano"> {item.agent} </Tag>,
+                                        <Tag color="volcano"> {item.agent?.charAt(0).toUpperCase() + item.agent!.slice(1)} </Tag>,
                                         <Tag color="magenta"> {item.desktop} </Tag>
                                     ]}
                                 >
-                                    <Title>No. {item.ticketNo}</Title>
+                                    <Title>No. {item.number}</Title>
                                 </Card>
                             </List.Item>
                         )}
@@ -36,17 +46,17 @@ export const Queue = () => {
                 <Col span={12}>
                     <Divider>History</Divider>
                     <List
-                        dataSource={data.slice(3)}
-                        renderItem={item => (
+                        dataSource={tickets.slice(3)}
+                        renderItem={(item: PropsTicketsInterface) => (
                             <List.Item>
                                 <List.Item.Meta
-                                    title={`Ticket No. ${item.ticketNo}`}
+                                    title={`Ticket No. ${item.number}`}
                                     description={
                                         <>
                                             <Text type="secondary">On desktop: </Text>
-                                            <Tag color="magenta">{item.ticketNo}</Tag>
+                                            <Tag color="magenta">{item.number}</Tag>
                                             <Text type="secondary">Agent: </Text>
-                                            <Tag color="magenta">{item.agent}</Tag>
+                                            <Tag color="magenta">{item.agent?.charAt(0).toUpperCase() + item.agent!.slice(1)}</Tag>
                                         </>
                                     }
                                 />
