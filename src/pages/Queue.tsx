@@ -22,12 +22,9 @@ export const Queue = () => {
     }, [socket]);
 
     useEffect(() => {
-        const getTickets = async () => {
-            const req: ReqTicketsInterface = await getTicketsHistory();
-            setTickets(req.data);
-        }
-
-        getTickets();
+        getTicketsHistory().then((data: ReqTicketsInterface) => {
+            setTickets(data.data);
+        });
     }, []);
 
     return (
